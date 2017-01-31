@@ -276,11 +276,15 @@ For example::
         argument is passed. Otherwise, query current state if no argument is
         provided. Most other methods require active interface.
 
-    .. method:: wlan.connect(ssid, [password])
+    .. method:: wlan.connect([ssid, [password]])
 
         Connect to the specified wireless network, using the specified password.
+
         If no password is provided the ESP8266 tries to connect with the last 
         known credentials for the specified SSID.
+
+        Both arguments can be skipped to let the ESP8266 try to establish a 
+        connection to the last used wireless network.
 
         Up to 5 different SSIDs and passwords are cached by the ESP8266 and 
         stored in a dedicated segment of flash memory.
@@ -361,16 +365,37 @@ For example::
        Following are commonly supported parameters (availability of a specific parameter
        depends on network technology type, driver, and MicroPython port).
 
-       =========  ===========
-       Parameter  Description
-       =========  ===========
-       mac        MAC address (bytes)
-       essid      WiFi access point name (string)
-       channel    WiFi channel (integer)
-       hidden     Whether ESSID is hidden (boolean)
-       authmode   Authentication mode supported (enumeration, see module constants)
-       password   Access password (string)
-       =========  ===========
+       The parameters available for interfaces in AP mode are:
+
+       =============  ===========
+       Parameter      Description
+       =============  ===========
+       mac            MAC address (bytes)
+       essid          WiFi access point name (string)
+       channel        WiFi channel (integer)
+       hidden         Whether ESSID is hidden (boolean)
+       authmode       Authentication mode supported (enumeration, see module constants)
+       password       Access password (string)
+       =============  ===========
+
+       All interfaces in STA mode do only support the following smaller subset 
+       of parameters:
+
+       =============  ===========
+       Parameter      Description
+       =============  ===========
+       mac            MAC address (bytes)
+       dhcp_hostname  Hostname reported in DHCP client request
+       =============  ===========
+
+       .. note::
+          
+          The parameter ``mac`` can be set for interfaces in STA and AP mode.
+          They must be different!
+
+       .. note::
+          
+          The first bit in the first byte of the MAC address can not be 1!
 
 
 
